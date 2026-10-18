@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block icerik %}
+<fieldset><legend>Giriş</legend>
+<form method="post">
+<input name="kullanici_adi" placeholder="Kullanıcı adı" required autofocus>
+<input name="sifre" type="password" placeholder="Şifre" required>
+<button>Giriş yap</button></form></fieldset>
+<p>Demo hesaplar: yönetici <b>admin / admin123</b> · öğrenci <b>ali / 1234</b>, <b>zeynep / 1234</b></p>
+{% endblock %}

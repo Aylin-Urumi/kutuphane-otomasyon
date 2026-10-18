@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% block icerik %}
+<div><span class="kart">Kitap çeşidi: <b>{{ ozet.baslik_sayisi }}</b></span>
+<span class="kart">Toplam adet: <b>{{ ozet.toplam }}</b></span>
+<span class="kart">Rafta: <b>{{ ozet.mevcut }}</b></span>
+<span class="kart">Tükenen: <b>{{ ozet.tukenen | length }}</b></span></div>
+<fieldset><legend>Yeni kitap ekle</legend>
+<form method="post" action="{{ url_for('kitap_ekle') }}">
+<input name="isbn" placeholder="ISBN" required><input name="baslik" placeholder="Başlık" required>
+<input name="yazarlar" placeholder="Yazarlar (virgülle)" required><input name="kategori" placeholder="Kategori" required>
+<input name="adet" type="number" min="1" value="1" required><button>Ekle</button></form></fieldset>
+<table><tr><th>Başlık</th><th>ISBN</th><th>Mevcut / Toplam</th><th>Adet ekle</th></tr>
+{% for k in kitaplar %}<tr><td>{{ k.baslik }}</td><td>{{ k.isbn }}</td>
+<td>{% if k.musait %}{{ k.mevcut_adet }}{% else %}<span class="gec">0</span>{% endif %} / {{ k.toplam_adet }}</td>
+<td><form class="satir" method="post" action="{{ url_for('adet_ekle', kitap_id=k.id) }}">
+<input name="adet" type="number" min="1" value="1" style="width:60px"><button>Ekle</button></form></td></tr>
+{% endfor %}</table>
+{% endblock %}

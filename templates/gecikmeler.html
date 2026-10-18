@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block icerik %}
+<h2>Gecikme raporu</h2>
+<p>Teslim tarihi geçmiş ve henüz iade edilmemiş kitaplar. Toplam birikmiş ceza:
+<b>{{ '%.2f' % toplam_ceza }} TL</b> (günlük 2 TL)</p>
+<table><tr><th>Öğrenci</th><th>No</th><th>Kitap</th><th>Son teslim</th><th>Gecikme</th><th>Ceza</th><th></th></tr>
+{% for r in rapor %}<tr><td>{{ r.ogrenci.ad_soyad }}</td><td>{{ r.ogrenci.ogrenci_no }}</td><td>{{ r.kitap.baslik }}</td>
+<td>{{ r.son_teslim_tarihi.strftime('%d.%m.%Y') }}</td><td class="gec">{{ r.gecikme_gunu() }} gün</td>
+<td>{{ '%.2f' % r.ceza() }} TL</td>
+<td><form method="post" action="{{ url_for('iade', odunc_id=r.id) }}"><button>İadeyi al</button></form></td></tr>
+{% else %}<tr><td colspan="7">Geciken kitap yok. 🎉</td></tr>{% endfor %}</table>
+{% endblock %}

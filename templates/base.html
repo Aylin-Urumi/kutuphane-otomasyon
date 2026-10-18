@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kütüphane Otomasyonu</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:980px;margin:0 auto;padding:16px;color:#222}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}
+nav a{margin-right:16px;font-weight:600;text-decoration:none;color:#0b5cad}
+table{border-collapse:collapse;width:100%;margin:12px 0}
+th,td{border-bottom:1px solid #ddd;padding:6px;text-align:left;vertical-align:top}
+input,select,button{padding:6px;margin:3px}
+.msg{padding:8px 12px;border-radius:6px;margin:8px 0}.ok{background:#e6f4ea}.err{background:#fde8e8}
+.gec{color:#b00020;font-weight:600}.az{color:#b45309;font-weight:600}
+fieldset{margin:14px 0;border:1px solid #ccc;border-radius:8px}
+.kart{display:inline-block;border:1px solid #ccc;border-radius:8px;padding:8px 14px;margin:4px 8px 4px 0}
+form.satir{display:inline}
+</style></head><body>
+<header>
+<h1>📚 Kütüphane Otomasyonu</h1>
+{% if g.kullanici %}<div>{{ g.kullanici.ad_soyad }} ({{ 'Yönetici' if g.kullanici.rol == 'yonetici' else 'Öğrenci' }})
+<form class="satir" method="post" action="{{ url_for('cikis') }}"><button>Çıkış</button></form></div>{% endif %}
+</header>
+{% if g.kullanici %}<nav>
+<a href="{{ url_for('kitaplar_sayfasi') }}">Kitap ara</a>
+{% if g.kullanici.rol == 'ogrenci' %}<a href="{{ url_for('oduncler_sayfasi') }}">Ödünç aldıklarım</a>
+{% else %}<a href="{{ url_for('yonetim_kitaplar') }}">Kitap / stok yönetimi</a>
+<a href="{{ url_for('gecikmeler_sayfasi') }}">Gecikme raporu</a>
+<a href="{{ url_for('yonetim_ogrenciler') }}">Öğrenciler</a>{% endif %}
+</nav>{% endif %}
+{% for kat, m in get_flashed_messages(with_categories=true) %}<div class="msg {{ kat }}">{{ m }}</div>{% endfor %}
+{% block icerik %}{% endblock %}
+</body></html>

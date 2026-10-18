@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block icerik %}
+<form method="get"><input name="q" value="{{ q }}" placeholder="Başlık, yazar, ISBN veya kategori ara" size="40" autofocus>
+<button>Ara</button>{% if q %} <a href="{{ url_for('kitaplar_sayfasi') }}">Temizle</a>{% endif %}</form>
+<table><tr><th>Başlık</th><th>Yazar(lar)</th><th>Kategori</th><th>ISBN</th><th>Mevcut / Toplam</th>
+{% if g.kullanici.rol == 'ogrenci' %}<th></th>{% endif %}</tr>
+{% for k in kitaplar %}<tr><td>{{ k.baslik }}</td>
+<td>{{ k.yazarlar | map(attribute='ad_soyad') | join(', ') }}</td><td>{{ k.kategori.ad if k.kategori }}</td>
+<td>{{ k.isbn }}</td>
+<td>{% if k.musait %}{{ k.mevcut_adet }}{% else %}<span class="gec">Stokta yok</span>{% endif %} / {{ k.toplam_adet }}</td>
+{% if g.kullanici.rol == 'ogrenci' %}<td>
+{% if k.id in bende %}Sizde{% elif k.musait %}
+<form method="post" action="{{ url_for('odunc_al', kitap_id=k.id) }}"><input type="hidden" name="q" value="{{ q }}"><button>Ödünç al</button></form>
+{% endif %}</td>{% endif %}</tr>
+{% else %}<tr><td colspan="6">Sonuç bulunamadı.</td></tr>{% endfor %}</table>
+{% endblock %}

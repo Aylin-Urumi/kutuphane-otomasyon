@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block icerik %}
+<h2>Ödünç aldıklarım</h2>
+<table><tr><th>Kitap</th><th>Ödünç</th><th>Son teslim</th><th>Durum</th><th></th></tr>
+{% for r in kayitlar %}<tr><td>{{ r.kitap.baslik }}</td>
+<td>{{ r.odunc_tarihi.strftime('%d.%m.%Y') }}</td><td>{{ r.son_teslim_tarihi.strftime('%d.%m.%Y') }}</td>
+<td>{% if r.iade_edildi_mi() %}İade edildi ({{ r.iade_tarihi.strftime('%d.%m.%Y') }}){% else %}Sizde{% endif %}
+{% if r.gecikme_gunu() %}<span class="gec"> · {{ r.gecikme_gunu() }} gün gecikme, ceza {{ '%.2f' % r.ceza() }} TL</span>{% endif %}</td>
+<td>{% if not r.iade_edildi_mi() %}<form method="post" action="{{ url_for('iade', odunc_id=r.id) }}"><button>İade et</button></form>{% endif %}</td></tr>
+{% else %}<tr><td colspan="5">Henüz ödünç aldığınız kitap yok.</td></tr>{% endfor %}</table>
+{% endblock %}

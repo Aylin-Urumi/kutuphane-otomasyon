@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block icerik %}
+<fieldset><legend>Yeni öğrenci</legend>
+<form method="post" action="{{ url_for('ogrenci_ekle') }}">
+<input name="ad" placeholder="Ad" required><input name="soyad" placeholder="Soyad" required>
+<input name="ogrenci_no" placeholder="Öğrenci No" required><input name="bolum" placeholder="Bölüm">
+<input name="kullanici_adi" placeholder="Kullanıcı adı" required><input name="sifre" placeholder="Şifre" required>
+<button>Ekle</button></form></fieldset>
+<table><tr><th>No</th><th>Ad Soyad</th><th>Bölüm</th><th>Kullanıcı adı</th></tr>
+{% for o in ogrenciler %}<tr><td>{{ o.ogrenci_no }}</td><td>{{ o.ad_soyad }}</td><td>{{ o.bolum }}</td><td>{{ o.kullanici_adi }}</td></tr>
+{% endfor %}</table>
+{% endblock %}
